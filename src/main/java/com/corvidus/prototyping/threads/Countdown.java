@@ -24,7 +24,7 @@ public class Countdown extends Thread {
 		while(true) {
 			deltaTime = Duration.between(start, Instant.now());
 			long milli = deltaTime.toMillis();
-			if(milli > 5000 && this.countdownObserver != null) {
+			if(milli > this.milliseconds && this.countdownObserver != null) {
 				this.countdownObserver.onEnd(this);
 			return;
 			}
