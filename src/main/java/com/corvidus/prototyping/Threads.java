@@ -4,15 +4,24 @@ import com.corvidus.input.Input;
 import com.corvidus.input.InputObserver;
 import com.corvidus.prototyping.threads.StringWriter;
 public class Threads implements InputObserver {
+	private StringWriter sw01;
+	private StringWriter sw02;
+	private Input input;
+	public Threads() {
+		this.sw01 = new StringWriter("I like dogs.");
+		this.sw02 = new StringWriter("I like cats.");
+		this.input = new Input();
+	}
+	
+	public void run() {
+		this.input.setInputObserver(this);
+		this.sw01.start();
+		this.sw02.start();
+		this.input.start();
+	}
 	public static void main(String[] args) {
-		StringWriter sw01 = new StringWriter("I like dogs.");
-		StringWriter sw02 = new StringWriter("I like cats.");
-		Input input = new Input();
-		input.setInputObserver(new Threads());
-		sw01.start();
-		sw02.start();
-		input.start();
-		
+		Threads threads = new Threads();
+		threads.run();
     }
 
 	@Override
