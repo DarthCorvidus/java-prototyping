@@ -31,8 +31,8 @@ public class Threads implements InputObserver, CountdownObserver {
     }
 
 	@Override
-	public void onInput(Input input, String inString) {
-		if(inString.equals("x")) {
+	public void onInput(Input input, char c) {
+		if(c == 'x' || c == (char)3) {
 			System.exit(0);
 		}
 	}

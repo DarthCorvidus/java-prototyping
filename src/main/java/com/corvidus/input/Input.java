@@ -19,9 +19,7 @@ public class Input extends Thread {
 			} catch (IOException e) {
 				System.exit(0);
 			}
-			if(read == 120) {
-				this.inputObserver.onInput(this, "x");
-			}
+			this.inputObserver.onInput(this, (char)read);
 			/*
 			Scanner scanner = new Scanner(System.in);
 			String input = scanner.nextLine().strip();
