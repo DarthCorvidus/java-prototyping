@@ -5,6 +5,7 @@ public class TerminalWindow {
 	private String rotate = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private int page = 0;
 	public TerminalWindow(int width, int height) {
+		System.out.print((char)27+"[2J");
 		this.width = width;
 		this.height = height;
 	}
@@ -20,7 +21,6 @@ public class TerminalWindow {
 	}
 	
 	public void draw() {
-		System.out.print((char)27+"[2J");
 		System.out.print((char)27+"[H");
 		String buffer = this.getBuffer();
 		String line;
