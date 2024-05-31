@@ -14,7 +14,7 @@ import java.time.Instant;
 public class StringWriter extends Thread {
 	private String string;
 	private Instant start = Instant.now();
-	private static Object lock = new Object();
+	private final static Object lock = new Object();
 	private volatile boolean running = true;
 	public StringWriter(String string) {
 		this.string = string;
