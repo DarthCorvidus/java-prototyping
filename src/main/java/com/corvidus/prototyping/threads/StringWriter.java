@@ -44,6 +44,7 @@ public class StringWriter extends Thread {
 		while(this.running) {
 			synchronized(StringWriter.lock) {
 				if(this.isInterrupted()) {
+					lock.notify();
 					return;
 				}
 				this.writeString();
