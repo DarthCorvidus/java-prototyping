@@ -28,6 +28,9 @@ public class Countdown extends Thread {
 				this.countdownObserver.onEnd(this);
 			return;
 			}
+			if(this.isInterrupted()) {
+				return;
+			}
 		}
 
 	}

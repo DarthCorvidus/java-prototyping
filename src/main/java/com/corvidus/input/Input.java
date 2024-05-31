@@ -13,6 +13,9 @@ public class Input extends Thread {
 	@Override
 	public void run() {
 		while(true) {
+			if(this.isInterrupted()) {
+				return;
+			}
 			int read = 0;
 			try {
 				read = RawConsoleInput.read(true);

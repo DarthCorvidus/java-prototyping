@@ -15,6 +15,7 @@ public class StringWriter extends Thread {
 	private String string;
 	private Instant start = Instant.now();
 	private static Object lock = new Object();
+	private volatile boolean running = true;
 	public StringWriter(String string) {
 		this.string = string;
 	}
@@ -40,14 +41,18 @@ public class StringWriter extends Thread {
 	}
 	@Override
 	public void run() {
-		while(true) {
+		while(this.running) {
 			synchronized(StringWriter.lock) {
 				this.writeString();
 				lock.notify();
 				try {
 					lock.wait();
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
+					return;
+				}
+				if(this.isInterrupted()) {
+					return;
 				}
 			}
 		}

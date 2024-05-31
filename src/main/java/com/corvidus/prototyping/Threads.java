@@ -25,6 +25,7 @@ public class Threads implements InputObserver, CountdownObserver {
 		this.input.start();
 		this.countdown.start();
 	}
+
 	public static void main(String[] args) {
 		Threads threads = new Threads();
 		threads.run();
@@ -33,13 +34,16 @@ public class Threads implements InputObserver, CountdownObserver {
 	@Override
 	public void onInput(Input input, char c) {
 		if(c == 'x' || c == (char)3) {
-			System.exit(0);
+			this.countdown.interrupt();
+			this.sw01.interrupt();
+			this.sw02.interrupt();
+			this.input.interrupt();
 		}
 	}
 
 	@Override
 	public void onEnd(Countdown countdown) {
-		System.out.println();
-		System.exit(0);
+		//System.out.println();
+		//System.exit(0);
 	}
 }
