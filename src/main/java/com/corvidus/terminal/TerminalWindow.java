@@ -11,7 +11,7 @@ public class TerminalWindow {
 	
 	private String getBuffer() {
 		String buffer = this.rotate.substring(this.page, this.page+1).repeat(this.width*this.height);
-		if(this.page<this.rotate.length()) {
+		if(this.page<this.rotate.length()-1) {
 			this.page++;
 		} else {
 			this.page = 0;
@@ -22,6 +22,16 @@ public class TerminalWindow {
 	public void draw() {
 		System.out.print((char)27+"[2J");
 		System.out.print((char)27+"[H");
-		System.out.print(this.getBuffer());
+		String buffer = this.getBuffer();
+		String line;
+		int beginIndex;
+		for(int i = 0; i<this.height;i++) {
+			beginIndex = this.width*i;
+			line = buffer.substring(beginIndex, beginIndex+this.width);
+			System.out.print(line);
+			if(i < this.height-1) {
+				System.out.println("");
+			}		
+		}
 	}
 }

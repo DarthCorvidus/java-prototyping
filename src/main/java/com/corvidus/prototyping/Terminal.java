@@ -14,6 +14,7 @@ public class Terminal implements InputObserver {
 	
 	public void run() {
 		this.input.setInputObserver(this);
+		this.input.start();
 		while(true) {
 			this.tw.draw();
 			try {
@@ -26,8 +27,8 @@ public class Terminal implements InputObserver {
 	}
 
 	public static void main(String[] args) {
-		Terminal threads = new Terminal();
-		threads.run();
+		Terminal terminal = new Terminal();
+		terminal.run();
     }
 
 	@Override
