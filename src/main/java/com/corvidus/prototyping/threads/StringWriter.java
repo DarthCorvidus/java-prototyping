@@ -43,15 +43,15 @@ public class StringWriter extends Thread {
 	public void run() {
 		while(this.running) {
 			synchronized(StringWriter.lock) {
+				if(this.isInterrupted()) {
+					return;
+				}
 				this.writeString();
 				lock.notify();
 				try {
 					lock.wait();
 				} catch (InterruptedException e) {
 					//e.printStackTrace();
-					return;
-				}
-				if(this.isInterrupted()) {
 					return;
 				}
 			}
