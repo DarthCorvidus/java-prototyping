@@ -14,7 +14,7 @@ public class Terminal implements InputObserver {
 	}
 	
 	public void run() {
-		this.input.setInputObserver(this);
+		this.input.addInputObserver(this);
 		this.input.start();
 		while(true) {
 			this.tw.draw();

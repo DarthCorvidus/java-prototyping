@@ -1,13 +1,13 @@
 package com.corvidus.input;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.ArrayList;
 public class Input extends Thread {
-	private InputObserver inputObserver;
+	private ArrayList<InputObserver> inputObservers = new ArrayList<InputObserver>();
 	public Input() {
 		
 	}
-	public void setInputObserver(InputObserver inputObserver) {
-		this.inputObserver = inputObserver;
+	public void addInputObserver(InputObserver inputObserver) {
+		this.inputObservers.add(inputObserver);
 	}
 	
 	@Override
@@ -22,7 +22,9 @@ public class Input extends Thread {
 			} catch (IOException e) {
 				System.exit(0);
 			}
-			this.inputObserver.onInput(this, (char)read);
+			for(InputObserver inputObserver : this.inputObservers) {
+				inputObserver.onInput(this, (char)read);
+			}
 			/*
 			Scanner scanner = new Scanner(System.in);
 			String input = scanner.nextLine().strip();

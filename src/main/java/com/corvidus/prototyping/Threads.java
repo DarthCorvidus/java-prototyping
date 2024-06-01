@@ -18,7 +18,7 @@ public class Threads implements InputObserver, CountdownObserver {
 	}
 	
 	public void run() {
-		this.input.setInputObserver(this);
+		this.input.addInputObserver(this);
 		this.countdown.setCountdownObserver(this);
 		this.sw01.start();
 		this.sw02.start();
