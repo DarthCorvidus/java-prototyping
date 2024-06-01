@@ -59,13 +59,20 @@ public class LanternaScreen implements TerminalResizeListener, InputObserver {
 					continue;
 				}
 				if(keyStroke.getKeyType() == KeyType.Escape) {
-					this.screen.stopScreen();
-					System.exit(0);
+					break;
+				}
+				if(keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter().toString().equals("x")) {
+					break;
 				}
 				this.textGraphics.drawLine(5, 4, this.screen.getTerminalSize().getColumns() - 1, 4, ' ');
+				this.textGraphics.drawLine(5, 5, this.screen.getTerminalSize().getColumns() - 1, 4, ' ');
 				this.textGraphics.putString(5, 4, "Last Keystroke: ", SGR.BOLD);
 				this.textGraphics.putString(5 + "Last Keystroke: ".length(), 4, keyStroke.toString());
-				this.textGraphics.putString(5 + "Last Keystroke: ".length(), 4, keyStroke.toString());
+				if(keyStroke.getKeyType() == KeyType.Character) {
+					this.textGraphics.putString(5, 5, "Last Charakter: ", SGR.BOLD);
+					this.textGraphics.putString(5 + "Last Charakter: ".length(), 5, keyStroke.getCharacter().toString());
+				}
+				
 				this.screen.refresh();
 			}
 			/*
