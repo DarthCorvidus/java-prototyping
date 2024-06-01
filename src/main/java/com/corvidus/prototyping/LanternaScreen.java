@@ -34,7 +34,7 @@ public class LanternaScreen implements TerminalResizeListener, InputObserver {
 		}
 	}
 	public static void main(String[] args) {
-		Lanterna lanterna = new Lanterna();
+		LanternaScreen lanterna = new LanternaScreen();
 		lanterna.run();
 	}
 
