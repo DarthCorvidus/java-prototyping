@@ -1,5 +1,7 @@
 package com.corvidus.prototyping;
 
+import com.corvidus.Lanterna.Input;
+import com.corvidus.Lanterna.InputObserver;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -11,9 +13,10 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalResizeListener;
 import java.io.IOException;
 
-public class Lanterna implements TerminalResizeListener {
+public class Lanterna implements TerminalResizeListener, InputObserver {
 	com.googlecode.lanterna.terminal.Terminal terminal = null;
 	TextGraphics textGraphics = null;
+	Input input;
 	public Lanterna() {
 		DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
 		try {
@@ -22,6 +25,8 @@ public class Lanterna implements TerminalResizeListener {
 			this.terminal.clearScreen();
 			this.terminal.setCursorVisible(false);
 			this.textGraphics = terminal.newTextGraphics();
+			this.input = new Input(this.terminal);
+			this.input.addInputObserver(this);
 		} catch(IOException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -33,6 +38,7 @@ public class Lanterna implements TerminalResizeListener {
 	}
 
 	public void run() {
+		this.input.start();
 		try {
 			this.textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
 			this.textGraphics.setBackgroundColor(TextColor.ANSI.BLACK);
@@ -46,6 +52,10 @@ public class Lanterna implements TerminalResizeListener {
 			this.textGraphics.putString(5, 4, "Last Keystroke: ", SGR.BOLD);
 			this.textGraphics.putString(5 + "Last Keystroke: ".length(), 4, "<Pending>");
 			this.terminal.flush();
+			while(true) {
+				
+			}
+			/*
 			KeyStroke keyStroke = this.terminal.readInput();
 			while (keyStroke.getKeyType() != KeyType.Escape) {
 				this.textGraphics.drawLine(5, 4, this.terminal.getTerminalSize().getColumns() - 1, 4, ' ');
@@ -54,7 +64,7 @@ public class Lanterna implements TerminalResizeListener {
 				this.terminal.flush();
 				keyStroke = terminal.readInput();
 			}
-
+			*/
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -86,5 +96,24 @@ public class Lanterna implements TerminalResizeListener {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
+	@Override
+	public void onInput(KeyStroke keyStroke) {
+		try {
+			if(keyStroke.getKeyType() == KeyType.Escape) {
+				this.input.interrupt();
+				this.terminal.exitPrivateMode();
+				this.terminal.close();
+				System.exit(0);
+			return;
+			}
+			this.textGraphics.drawLine(5, 4, this.terminal.getTerminalSize().getColumns() - 1, 4, ' ');
+			this.textGraphics.putString(5, 4, "Last Keystroke: ", SGR.BOLD);
+			this.textGraphics.putString(5 + "Last Keystroke: ".length(), 4, keyStroke.toString());
+			this.terminal.flush();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
