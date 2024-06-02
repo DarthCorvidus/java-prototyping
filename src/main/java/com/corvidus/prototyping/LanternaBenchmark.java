@@ -44,22 +44,18 @@ public class Terminal implements InputObserver {
 		}
 		if(c == '+' && this.delay > 100) {
 			this.delay -= 100;
-			return;
 		}
 
 		if(c == '+' && this.delay > 10 && this.delay <= 100) {
 			this.delay -= 10;
-			return;
 		}
 
-		if(c == '-' && this.delay < 100) {
+		if(c == '-' && this.delay <= 100) {
 			this.delay += 10;
-			return;
 		}
 		
-		if(c == '-' && this.delay >= 100) {
+		if(c == '-' && this.delay > 100) {
 			this.delay += 100;
-			return;
 		}
 	}
 }
