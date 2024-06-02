@@ -6,6 +6,8 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 public class LanternaBenchmark {
 	TextGraphics textGraphics = null;
@@ -13,6 +15,7 @@ public class LanternaBenchmark {
 	private int delay = 1000;
 	private char[] alpha = {'A', 'B', 'C'};
 	private int page = 0;
+	private Instant start = Instant.now();
 	public LanternaBenchmark() {
 		DefaultTerminalFactory defaultTerminalFactory = new DefaultTerminalFactory();
 		System.out.println("Starting");
@@ -32,6 +35,7 @@ public class LanternaBenchmark {
 	
 	public void run() {
 		KeyStroke keyStroke;
+		Duration deltaTime;
 		try {
 			while(true) {
 				//this.screen.doResizeIfNecessary();
@@ -41,6 +45,11 @@ public class LanternaBenchmark {
 				}
 				if(keyStroke != null && keyStroke.getKeyType() == KeyType.Character) {
 					this.onInput(keyStroke.getCharacter());
+				}
+				deltaTime = Duration.between(start, Instant.now());
+				if(deltaTime.toMillis() < this.delay) {
+					Thread.sleep(10, 0);
+					continue;
 				}
 				for(int row = 0; row < this.screen.getTerminalSize().getRows(); row++) {
 					for(int col = 0; col < this.screen.getTerminalSize().getColumns(); col++) {
@@ -55,7 +64,8 @@ public class LanternaBenchmark {
 					this.page++;
 				}
 				this.screen.refresh();
-				Thread.sleep(this.delay, 0);
+				Thread.sleep(10, 0);
+				this.start = Instant.now();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
